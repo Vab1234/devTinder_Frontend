@@ -36,7 +36,7 @@ export default function Body(){
             <Navbar />
             <Outlet />  
             {/* any children of body component will render in the outlet */}
-            <Footer />
+            {/* <Footer /> */}
         </>
     )
 }
