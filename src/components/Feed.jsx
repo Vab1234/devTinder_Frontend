@@ -32,13 +32,13 @@ export default function Feed() {
     useEffect(() => {
         // console.log("in effect")
         getFeed();
-    } , [feed]);
+    } , []);
 
     // console.log(feed)
 
     return feed && (
         <div className = "flex justify-center mt-6">
-            <UserCard  user={feed[5]} />
+            <UserCard  user={feed[0]} />
         </div>
     )
 }
