@@ -34,7 +34,7 @@ export default function Connections(){
             <h1 className="text-3xl font-bold text-center mb-20">Connections</h1>
             <div className="flex flex-wrap mx-10 justify-center">
             {connections.map((connection) => (
-                <div className="mx-5 my-4">
+                <div key = {connection._id}className="mx-5 my-4">
                     <div className="card bg-base-100 w-60 h-100 shadow-xl">
                         <figure>
                             <img
