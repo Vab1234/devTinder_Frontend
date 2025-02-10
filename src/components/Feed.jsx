@@ -35,6 +35,9 @@ export default function Feed() {
     } , []);
 
     // console.log(feed)
+    if(!feed) return;
+
+    if(feed.length <= 0) return <h1 className="text-center text-xl">No new Users found</h1>
 
     return feed && (
         <div className = "flex justify-center mt-6">

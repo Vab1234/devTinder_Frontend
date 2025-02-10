@@ -6,8 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 
 export default function Login(){
-    const [emailId , setEmailId] = useState("varunbudhani1954@gmail.com");
-    const [password , setPassword] = useState("Varun!1234");
+    const [emailId , setEmailId] = useState("");
+    const [password , setPassword] = useState("");
+    const [isLoginForm , setIsLoginForm] = useState(false);
+    const [firstName , setFirstName] = useState("");
+    const [lastName , setLastName] = useState("");
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -29,12 +33,71 @@ export default function Login(){
         }
     }
 
+    const handleSignup = async () => {
+        try{
+            const res = await axios.post(BASE_URL + "/signup" , {
+                firstName , lastName , password , emailId
+            }, {
+                withCredentials : true,
+            });
+            console.log(res.data);
+            dispatch(addUser(res.data));
+            return navigate("/profile");
+        }   
+        catch(err){
+            console.error(err);
+        }
+    }
+
     return(
         <div className = "flex justify-center my-10">
             <div className="card bg-base-300 w-96 shadow-xl p-2">
                 <div className="card-body">
-                    <h1 className="text-center mb-2 font-bold text-xl">Login</h1>
-                    
+                    <h1 className="text-center mb-2 font-bold text-xl">{isLoginForm ? "Login" : "Sign Up"}</h1>
+                    {!isLoginForm && 
+                        <>
+                        <label className="input input-bordered flex items-center gap-2 m-2">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 16 16"
+                                fill="currentColor"
+                                className="h-4 w-4 opacity-70">
+                                <path
+                                d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
+                                <path
+                                d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
+                            </svg>
+                            <input type="text"
+                            className="grow" 
+                            placeholder="First Name" 
+                            value = {firstName}
+                            onChange={(e) => {
+                                setFirstName(e.target.value);
+                            }}
+                            />
+                        </label>
+                        <label className="input input-bordered flex items-center gap-2 m-2">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 16 16"
+                                fill="currentColor"
+                                className="h-4 w-4 opacity-70">
+                                <path
+                                d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
+                                <path
+                                d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
+                            </svg>
+                            <input type="text"
+                            className="grow" 
+                            placeholder="Last Name" 
+                            value = {lastName}
+                            onChange={(e) => {
+                                setLastName(e.target.value);
+                            }}
+                            />
+                        </label>
+                    </>
+                    }
                     <label className="input input-bordered flex items-center gap-2 m-2">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -75,7 +138,9 @@ export default function Login(){
                         }}
                         />
                     </label>
-                    <button className="btn btn-primary" onClick={handleLogin}>Login</button>
+                    <button className="btn btn-primary" onClick={isLoginForm ? handleLogin : handleSignup}>{isLoginForm ? "Login" : "Sign Up"}</button>
+                    <p className="text-sm cursor-pointer text-center mt-3" onClick={() => setIsLoginForm((value) => !value)}>{isLoginForm ? "New user? Signup" : "Existing user? Login"}</p>
+                    
                 </div>
             </div>
         </div>
