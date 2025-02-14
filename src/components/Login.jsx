@@ -8,9 +8,11 @@ import { BASE_URL } from "../utils/constants";
 export default function Login(){
     const [emailId , setEmailId] = useState("");
     const [password , setPassword] = useState("");
-    const [isLoginForm , setIsLoginForm] = useState(false);
+    const [isLoginForm , setIsLoginForm] = useState(true);
     const [firstName , setFirstName] = useState("");
     const [lastName , setLastName] = useState("");
+    const [error , setError] = useState("");
+    const [showToast , setShoWToast] = useState(false);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -29,7 +31,10 @@ export default function Login(){
         return navigate("/");
         }
         catch(err){
-            console.error(err);
+            setError(err.response.data);
+            setShoWToast(true);
+            console.log(err.response.data);
+            setTimeout(() => {setShoWToast(false)} , 3000);
         }
     }
 
@@ -45,7 +50,7 @@ export default function Login(){
             return navigate("/profile");
         }   
         catch(err){
-            console.error(err);
+            console.log(err);
         }
     }
 
@@ -140,7 +145,11 @@ export default function Login(){
                     </label>
                     <button className="btn btn-primary" onClick={isLoginForm ? handleLogin : handleSignup}>{isLoginForm ? "Login" : "Sign Up"}</button>
                     <p className="text-sm cursor-pointer text-center mt-3" onClick={() => setIsLoginForm((value) => !value)}>{isLoginForm ? "New user? Signup" : "Existing user? Login"}</p>
-                    
+                    {showToast && <div className="toast toast-top toast-center">
+                        <div className="alert alert-success">
+                            <span>{error}</span>
+                        </div>
+                    </div>}
                 </div>
             </div>
         </div>
