@@ -11,7 +11,6 @@ import Requests from "./components/Requests";
 
 function App() {
   return (
-    <Provider store={appStore}>
       <BrowserRouter>
         <Routes>
           {/* Main layout route with header/footer */}
@@ -26,7 +25,6 @@ function App() {
           <Route path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
-    </Provider>
   );
 }
 
